@@ -1,2 +1,2 @@
 # Base-Converter
-Base Converter web app using Python and Flask.
+Base Converter cli using python.
