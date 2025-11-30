@@ -32,6 +32,8 @@ class Console:
         """ 
         print("╔═════════════════════════════════════════════════╗")
         print("║                 Convertor de baze               ║")
+        print("║         Proiect realizat de: Arsene Robert      ║")
+        print("║                   Grupa: 211/1                  ║")
         print("╚═════════════════════════════════════════════════╝")
 
     @staticmethod
