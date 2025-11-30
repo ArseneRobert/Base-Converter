@@ -3,6 +3,7 @@ Printare interfață console pentru aplicație.
 """
 
 from utils.utils import determinare_optiuni_disponibile
+from domain.conversii import conversie_impartire_succesiva, conversie_metoda_substitutiei, conversie_baza_intermediara
 
 class Console:
     def __init__(self):
@@ -20,7 +21,6 @@ class Console:
         print("║ 3. Operatii aritmetice în diferite baze.        ║")
         print("║ 0. Iesire din aplicatie.                        ║")
         print("╚═════════════════════════════════════════════════╝")
-
 
     @staticmethod
     def __print_banner():
@@ -107,29 +107,99 @@ class Console:
                     break
         return users_option
     
+    #! 1) Impartire succesiva.
+    def __conversie_impartire_succesiva_ui(self):
+        """
+        Printam interfața pentru conversia unui număr între baze folosind metoda împărțirii succesive.
+        Input: -.
+        Output: -.        
+        """
+        # Citim numarul pe care dorim sa il convertim.
+        numar_de_convertit = input("Introduceti numarul de convertit in baza 10: ")
+        # Citim baza destinatie.
+        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza 10 in baza {baza_destinatie} folosind impartirea succesiva.\n")
+        try:
+            rezultat, pasi = conversie_impartire_succesiva(numar_de_convertit, baza_destinatie)
+            print("Pasi efectuati in conversie:")
+            print(pasi)
+            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+        except Exception as error:
+            print(f"Eroare la convertirea numarului: {error}")
+
+    #! 2) Metoda substitutiei.
+    def __conversie_metoda_substitutiei_ui(self):
+        """
+        Printam interfața pentru conversia unui număr între baze folosind metoda substituției.
+        Input: -.
+        Output: -.        
+        """
+        # Citim baza sursa.
+        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
+        # Citim numarul de convertit.
+        numar_de_convertit = input("Introduceti numarul de convertit: ")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza 10 folosind metoda substitutiei\n.")
+        try:
+            rezultat, pasi = conversie_metoda_substitutiei(numar_de_convertit, baza_sursa)
+            print("Pasi efectuati in conversie:")
+            print(pasi)
+            print(f"Rezultatul este: {rezultat} (10)")
+        except Exception as error:
+            print(f"Eroare la convertirea numarului: {error}")
+    
+    #! 3) Utilizarea unei baze intermediare.
+    def __conversie_baza_intermediara_ui(self):
+        """
+        Printam interfața pentru conversia unui număr între baze folosind o bază intermediară.
+        Input: -.
+        Output: -.        
+        """
+        # Citim baza sursa.
+        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
+        # Citim numarul de convertit.
+        numar_de_convertit = input("Introduceti numarul de convertit: ")
+        # Citim baza tinta.
+        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza {baza_destinatie} folosind o baza intermediara.\n")
+        try:
+            rezultat, pasi = conversie_baza_intermediara(numar_de_convertit, baza_sursa, baza_destinatie)
+            print("Pasi efectuati in conversie:")
+            print(pasi)
+            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+        except Exception as error:
+            print(f"Eroare la convertirea numarului: {error}")
+    
     def showUi(self):
         """
         Afiseaza interfața console pentru aplicație.
         Input: -.
         Output: -.
         """ 
-
+        # Se declara variabila care permite rularea programului cat timp este True. 
+        # In momentul in care aceasta variabila devine False programul nu mai ruleaza.
         running = True        
+        # Declaram variabila care printeaza meniul principal.
         ok = 0
+        # Bucla principala a aplicatiei.
         while running:
-
+            # Printam bannerul aplicatiei.
             Console.__print_banner()
 
-            if ok == False:
+            # Printam meniul principal daca ok == 0.
+            if ok == 0:
                 Console.__print_meniu_principal()
 
+            # Citim optiunea 1 selectata de utilizator.
             user_option_1 = Console.__input_optiune_utilizator(0, 3, ">>> ")
 
+            # Actualizam variabila ok pentru a printa optiunile in modul extins sau colapsat.
             ok = user_option_1
 
+            # Printam optiunile in modul extins sau colapsat daca ok != 0.
             if ok != 0:
                 Console.__print_optiuni_ext_sau_col(ok)
 
+            # Salvam numarul de optiuni valabile in functie de optiunea principala selectata de utilizator.
             numar_optiuni_disponibile = determinare_optiuni_disponibile(user_option_1)
             if user_option_1 == 0:
                 user_option_2 = 0
@@ -138,31 +208,36 @@ class Console:
             else:
                 user_option_2 = Console.__input_optiune_utilizator(0, numar_optiuni_disponibile, ">>> ")
 
+            # Optiunea 0: Iesire din aplicatie.
             if user_option_1 == 0:
                 if user_option_2 == 0:
                     print("Iesire din aplicatie...")
                     running = False
 
+            # Optiunea 1: Conversie număr între baze.
             if user_option_1 == 1:
                 if user_option_2 == 1:
-                    print("Ai ales Conversie număr între baze -> Impartire succesiva.")
+                    self.__conversie_impartire_succesiva_ui()
                 elif user_option_2 == 2:
-                    print("Ai ales Conversie număr între baze -> Metoda substitutiei.")
+                    self.__conversie_metoda_substitutiei_ui()
                 elif user_option_2 == 3:
-                    print("Ai ales Conversie număr între baze -> Utilizarea unei baze intermediare.")
+                    self.__conversie_baza_intermediara_ui()
 
+            # Optiunea 2: Conversii rapide (2, 4, 8, 16).
             if user_option_1 == 2:
                 if user_option_2 == 2:
-                    print("Ai ales Conversii rapide (2, 4, 8, 16).")
+                    pass
 
+            # Optiunea 3: Operatii aritmetice în diferite baze.
             if user_option_1 == 3:
                 if user_option_2 == 1:
-                    print("Ai ales Operatii aritmetice în diferite baze -> Adunare.")
+                    pass
                 elif user_option_2 == 2:
-                    print("Ai ales Operatii aritmetice în diferite baze -> Scadere.")
+                    pass
                 elif user_option_2 == 3:
-                    print("Ai ales Operatii aritmetice în diferite baze -> Inmultire.")
+                    pass
                 elif user_option_2 == 4:
-                    print("Ai ales Operatii aritmetice în diferite baze -> Impartire.")
+                    pass
 
+            # Resetam variabila ok pentru a printa meniul principal la urmatoarea iteratie.
             ok = 0
