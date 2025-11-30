@@ -36,7 +36,7 @@ def adunare_in_baze(numar1, numar2, baza):
     # Realizam adunarea cifra cu cifra cu gestionarea transportului 
     pasi = ""
     contor_pasi = 1
-    cifra_rezultat = ""
+    numar_rezultat = ""
     transport = 0
     cifre = "0123456789ABCDEF"
     for i in range(len(numar1)):
@@ -44,22 +44,22 @@ def adunare_in_baze(numar1, numar2, baza):
         valoare_cifra1 = cifre.index(numar1[i])
         valoare_cifra2 = cifre.index(numar2[i])
         suma_cifre = valoare_cifra1 + valoare_cifra2 + transport
-        valoare_cifra_rezultat = suma_cifre % baza
+        valoare_numar_rezultat = suma_cifre % baza
         transport = suma_cifre // baza
-        cifra_rezultat += cifre[valoare_cifra_rezultat]
+        numar_rezultat += cifre[valoare_numar_rezultat]
         # Salvam pasii efectuati
-        pasi += f"Pasul {contor_pasi}: {cifre[valoare_cifra1]} + {cifre[valoare_cifra2]} + transport {transport_initial} = {suma_cifre} => {suma_cifre} % {baza} = {cifre[valoare_cifra_rezultat]} rest {suma_cifre // baza} => Cifra rezultat: {cifre[valoare_cifra_rezultat]}, Transport: {transport}\n"
+        pasi += f"Pasul {contor_pasi}: {cifre[valoare_cifra1]} + {cifre[valoare_cifra2]} + transport {transport_initial} = {suma_cifre} => {suma_cifre} % {baza} = {cifre[valoare_numar_rezultat]} rest {suma_cifre // baza} => Cifra rezultat: {cifre[valoare_numar_rezultat]}, Transport: {transport}\n"
         contor_pasi += 1
 
     # Daca mai ramane transport, il adaugam ca cifra cea mai semnificativa
     if transport > 0:
-        cifra_rezultat += cifre[transport]
+        numar_rezultat += cifre[transport]
         pasi += f"Pasul {contor_pasi}: Adaugam transportul ramas {transport} ca cifra cea mai semnificativa.\n"
     
     # Inversam rezultatul pentru a obtine numarul corect
-    cifra_rezultat = cifra_rezultat[::-1]
-    pasi += f"Numarul rezultat este obtinut prin citirea cifrelor de jos in sus: {cifra_rezultat}\n"
-    return cifra_rezultat, pasi
+    numar_rezultat = numar_rezultat[::-1]
+    pasi += f"Numarul rezultat este obtinut prin citirea cifrelor de jos in sus: {numar_rezultat}\n"
+    return numar_rezultat, pasi
 
 def scadere_in_baze(numar1, numar2, baza):
     """
@@ -95,7 +95,7 @@ def scadere_in_baze(numar1, numar2, baza):
     # Realizam scaderea cifra cu cifra cu gestionarea imprumutului
     pasi = ""
     contor_pasi = 1
-    cifra_rezultat = ""
+    numar_rezultat = ""
     imprumut = 0
     cifre = "0123456789ABCDEF"
     for i in range(len(numar1)):
@@ -109,17 +109,17 @@ def scadere_in_baze(numar1, numar2, baza):
         else:
             imprumut = 0
         diferenta_cifre = valoare_cifra1 - valoare_cifra2
-        cifra_rezultat += cifre[diferenta_cifre]
+        numar_rezultat += cifre[diferenta_cifre]
         # Salvam pasii efectuati
         pasi += f"Pasul {contor_pasi}: {cifre[valoare_cifra1 + (imprumut * baza)]} - {cifre[valoare_cifra2]} - imprumut {imprumut_initial} = {diferenta_cifre} => Cifra rezultat: {cifre[diferenta_cifre]}, Imprumut: {imprumut}\n"
         contor_pasi += 1
     
     # Inversam rezultatul pentru a obtine numarul corect
-    cifra_rezultat = cifra_rezultat[::-1].lstrip('0')
-    if cifra_rezultat == "":
-        cifra_rezultat = "0"
-    pasi += f"Numarul rezultat este obtinut prin citirea cifrelor de jos in sus: {cifra_rezultat}\n"
-    return cifra_rezultat, pasi
+    numar_rezultat = numar_rezultat[::-1].lstrip('0')
+    if numar_rezultat == "":
+        numar_rezultat = "0"
+    pasi += f"Numarul rezultat este obtinut prin citirea cifrelor de jos in sus: {numar_rezultat}\n"
+    return numar_rezultat, pasi
 
 def inmultire_in_baze_cu_o_cifra(numar, cifra, baza):
     """
@@ -153,11 +153,11 @@ def inmultire_in_baze_cu_o_cifra(numar, cifra, baza):
         transport_initial = transport
         valoare_cifra_numar = cifre.index(numar[i])
         produs = valoare_cifra_numar * valoare_cifra + transport
-        valoare_cifra_rezultat = produs % baza
+        valoare_numar_rezultat = produs % baza
         transport = produs // baza
-        rezultat_partial += cifre[valoare_cifra_rezultat]
+        rezultat_partial += cifre[valoare_numar_rezultat]
         # Salvam pasii efectuati
-        pasi += f"Pasul {contor_pasi}: {cifre[valoare_cifra_numar]} * {cifre[valoare_cifra]} + transport {transport_initial} = {produs} => {produs} % {baza} = {cifre[valoare_cifra_rezultat]} rest {produs // baza} => Cifra rezultat: {cifre[valoare_cifra_rezultat]}, Transport: {transport}\n"
+        pasi += f"Pasul {contor_pasi}: {cifre[valoare_cifra_numar]} * {cifre[valoare_cifra]} + transport {transport_initial} = {produs} => {produs} % {baza} = {cifre[valoare_numar_rezultat]} rest {produs // baza} => Cifra rezultat: {cifre[valoare_numar_rezultat]}, Transport: {transport}\n"
         contor_pasi += 1
 
     # Daca mai ramane transport, il adaugam ca cifra cea mai semnificativa
@@ -202,11 +202,11 @@ def impartirea_cu_o_cifra(numar, cifra, baza):
     for cifra_numar in numar:
         valoare_cifra_numar = cifre.index(cifra_numar)
         dividend = rest * baza + valoare_cifra_numar
-        cifra_rezultat = dividend // valoare_cifra_divizor
+        numar_rezultat = dividend // valoare_cifra_divizor
         rest = dividend % valoare_cifra_divizor
-        rezultat += cifre[cifra_rezultat]
+        rezultat += cifre[numar_rezultat]
         # Salvam pasii efectuati
-        pasi += f"Pasul {contor_pasi}: ({rest} * {baza} + {cifre[valoare_cifra_numar]}) / {cifre[valoare_cifra_divizor]} = {dividend} / {cifre[valoare_cifra_divizor]} = {cifre[cifra_rezultat]} rest {rest}\n"
+        pasi += f"Pasul {contor_pasi}: ({rest} * {baza} + {cifre[valoare_cifra_numar]}) / {cifre[valoare_cifra_divizor]} = {dividend} / {cifre[valoare_cifra_divizor]} = {cifre[numar_rezultat]} rest {rest}\n"
         contor_pasi += 1
     # Salvam restul final
     rest_rezultat = rest
