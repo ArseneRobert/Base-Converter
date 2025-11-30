@@ -3,7 +3,7 @@ Printare interfață console pentru aplicație.
 """
 
 from utils.utils import determinare_optiuni_disponibile
-from domain.conversii import conversie_impartire_succesiva, conversie_metoda_substitutiei, conversie_baza_intermediara
+from domain.conversii import conversie_impartire_succesiva, conversie_metoda_substitutiei, conversie_baza_intermediara, conversie_rapida
 
 class Console:
     def __init__(self):
@@ -114,13 +114,15 @@ class Console:
         Input: -.
         Output: -.        
         """
+        # Citim baza sursa.
+        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
         # Citim numarul pe care dorim sa il convertim.
-        numar_de_convertit = input("Introduceti numarul de convertit in baza 10: ")
+        numar_de_convertit = input("Introduceti numarul de convertit: ")
         # Citim baza destinatie.
         baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
-        print(f"\nConvertim numarul {numar_de_convertit} din baza 10 in baza {baza_destinatie} folosind impartirea succesiva.\n")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza {baza_destinatie} folosind impartirea succesiva.\n")
         try:
-            rezultat, pasi = conversie_impartire_succesiva(numar_de_convertit, baza_destinatie)
+            rezultat, pasi = conversie_impartire_succesiva(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
             print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
@@ -138,12 +140,14 @@ class Console:
         baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
         # Citim numarul de convertit.
         numar_de_convertit = input("Introduceti numarul de convertit: ")
-        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza 10 folosind metoda substitutiei\n.")
+        # Citim baza destinatie.
+        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza {baza_destinatie} folosind metoda substitutiei\n.")
         try:
-            rezultat, pasi = conversie_metoda_substitutiei(numar_de_convertit, baza_sursa)
+            rezultat, pasi = conversie_metoda_substitutiei(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
-            print(f"Rezultatul este: {rezultat} (10)")
+            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
     
@@ -169,6 +173,28 @@ class Console:
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
     
+    #! 4) Conversii rapide (2, 4, 8, 16).
+    def __conversie_rapida_ui(self):
+        """
+        Printam interfața pentru conversia rapidă între bazele 2, 4, 8 și 16.
+        Input: -.
+        Output: -.
+        """
+        # Citim baza sursa.
+        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
+        # Citim numarul de convertit.
+        numar_de_convertit = input("Introduceti numarul de convertit: ")
+        # Citim baza tinta.
+        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
+        print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza {baza_destinatie} folosind o baza intermediara.\n")
+        try:
+            rezultat, pasi = conversie_rapida(numar_de_convertit, baza_sursa, baza_destinatie)
+            print("Pasi efectuati in conversie:")
+            print(pasi)
+            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+        except Exception as error:
+            print(f"Eroare la convertirea numarului: {error}")
+
     def showUi(self):
         """
         Afiseaza interfața console pentru aplicație.
@@ -196,7 +222,7 @@ class Console:
             ok = user_option_1
 
             # Printam optiunile in modul extins sau colapsat daca ok != 0.
-            if ok != 0:
+            if ok != 0 and ok != 2:
                 Console.__print_optiuni_ext_sau_col(ok)
 
             # Salvam numarul de optiuni valabile in functie de optiunea principala selectata de utilizator.
@@ -226,7 +252,7 @@ class Console:
             # Optiunea 2: Conversii rapide (2, 4, 8, 16).
             if user_option_1 == 2:
                 if user_option_2 == 2:
-                    pass
+                    self.__conversie_rapida_ui()
 
             # Optiunea 3: Operatii aritmetice în diferite baze.
             if user_option_1 == 3:
