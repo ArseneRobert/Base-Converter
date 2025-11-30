@@ -195,11 +195,11 @@ class Console:
         Output: -.
         """
         # Citim baza sursa.
-        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2-16): ")
+        baza_sursa = Console.__input_optiune_utilizator(2, 16, "Introduceti baza sursa (2, 4, 8, 16): ")
         # Citim numarul de convertit.
         numar_de_convertit = input("Introduceti numarul de convertit: ")
         # Citim baza tinta.
-        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2-16): ")
+        baza_destinatie = Console.__input_optiune_utilizator(2, 16, "Introduceti baza destinatie (2, 4, 8, 16): ")
         print(f"\nConvertim numarul {numar_de_convertit} din baza {baza_sursa} in baza {baza_destinatie} folosind o baza intermediara.\n")
         try:
             rezultat, pasi = conversie_rapida(numar_de_convertit, baza_sursa, baza_destinatie)
