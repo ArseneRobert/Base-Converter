@@ -85,7 +85,6 @@ def conversie_impartire_succesiva(numar_de_convertit, baza_sursa, baza_destinati
         pasi += f"Pasul {contor_pasi}: {numar_decimal_inainte} / {baza_destinatie} = {numar_decimal} rest {cifre[rest]}\n"
         contor_pasi += 1
     pasi += "Resturile citite de jos in sus formeaza numarul convertit.\n"
-    rezultat = rezultat[::-1]
     return rezultat, pasi
 
 def conversie_metoda_substitutiei(numar_de_convertit, baza_sursa, baza_destinatie):
@@ -131,11 +130,14 @@ def conversie_baza_intermediara(numar_de_convertit, baza_sursa, baza_destinatie)
            baza_destinatie - int = baza in care trebuie convertit numarul.
     Output: str - Numarul convertit in baza destinatie.
     """
+    # Convertim mai intai numarul in baza 10
     numar_in_baza_10, pasi_substitutie = conversie_metoda_substitutiei(numar_de_convertit, baza_sursa, 10)
+    # Apoi convertim numarul din baza 10 in baza destinatie daca este nevoie
     if baza_destinatie == 10:
         pasi_substitutie += "Numarul este deja in baza 10, nu este nevoie de conversie.\n"
         return numar_in_baza_10, pasi_substitutie
     numar_in_baza_destinatie, pasi_impartire = conversie_impartire_succesiva(numar_in_baza_10, 10, baza_destinatie)
+    # Salvam pasii efectuati in ambele conversii
     pasi = f"Conversie din baza {baza_sursa} in baza 10:\n{pasi_substitutie}\n"
     pasi += f"Conversie din baza 10 in baza {baza_destinatie}:\n{pasi_impartire}\n"
     return numar_in_baza_destinatie, pasi
@@ -148,12 +150,14 @@ def conversie_rapida(numar_de_convertit, baza_sursa, baza_destinatie):
            baza_destinatie - int = baza in care trebuie convertit numarul.
     Output: str - Numarul convertit in baza destinatie.    
     """
+    # Validam bazele si numarul
     if baza_sursa not in [2, 4, 8, 16] or baza_destinatie not in [2, 4, 8, 16]:
         raise ValueError("Conversiile rapide sunt suportate doar intre bazele 2, 4, 8 si 16.")
     
     if not validare_numar_in_baza(numar_de_convertit, baza_sursa):
         raise ValueError(f"Numarul {numar_de_convertit} nu este valid in baza {baza_sursa}.")
     
+    # Tabel de conversii directe intre bazele 2, 4, 8 si 16 impreuna cu numarul de cifre grupate
     conversii_directe = {
         (2, 4): 2,
         (4, 2): 0.5,
@@ -169,31 +173,42 @@ def conversie_rapida(numar_de_convertit, baza_sursa, baza_destinatie):
         (16, 8): 1
     }
 
+    # Daca bazele sunt aceleasi, returnam numarul neschimbat
     if baza_sursa == baza_destinatie:
         return numar_de_convertit, "Baza sursa si baza destinatie sunt aceleasi, numarul ramane neschimbat.\n"
     
+    # Conversie rapida cand baza sursa este mai mica decat baza destinatie
     if baza_sursa < baza_destinatie:
+        # Grupam cifrele din numar conform factorului de conversie
         factor = conversii_directe[(baza_sursa, baza_destinatie)]
         grupare = int(factor)
         numar_de_convertit = numar_de_convertit.zfill(((len(numar_de_convertit) + grupare - 1) // grupare) * grupare)
         rezultat = ""
         pasi = ""
         for i in range(0, len(numar_de_convertit), grupare):
+            # Grupam cifrele conform factorului de conversie
+            # Convertim fiecare grup in baza destinatie
             grup = numar_de_convertit[i:i+grupare]
             valoare = conversie_la_baza_10(grup, baza_sursa)
             cifra_in_baza_destinatie = conversie_de_la_baza_10(int(valoare), baza_destinatie)
             rezultat += cifra_in_baza_destinatie
+            # Salvam pasii efectuati
             pasi += f"Grup: {grup} (baza {baza_sursa}) -> {valoare} (baza 10) -> {cifra_in_baza_destinatie} (baza {baza_destinatie})\n"
         return rezultat.lstrip("0"), pasi
+    # Conversie rapida cand baza sursa este mai mare decat baza destinatie
     else:
+        # Grupam cifrele din numar conform factorului de conversie
         factor = conversii_directe[(baza_destinatie, baza_sursa)]
         grupare = int(factor)
         rezultat = ""
         pasi = ""
         for cifra in numar_de_convertit:
+            # Grupam cifrele conform factorului de conversie
+            # Convertim fiecare cifra in baza destinatie
             valoare_in_baza_10 = conversie_la_baza_10(cifra, baza_sursa)
             grup_in_baza_sursa = conversie_de_la_baza_10(int(valoare_in_baza_10), baza_destinatie)
             grup_in_baza_sursa = grup_in_baza_sursa.zfill(grupare)
             rezultat += grup_in_baza_sursa
+            # Salvam pasii efectuati
             pasi += f"Cifra: {cifra} (baza {baza_sursa}) -> {valoare_in_baza_10} (baza 10) -> {grup_in_baza_sursa} (baza {baza_destinatie})\n"
         return rezultat.lstrip("0"), pasi

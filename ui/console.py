@@ -2,6 +2,7 @@
 Printare interfață console pentru aplicație.
 """
 
+from domain.operatii_aritmetice import adunare_in_baze, scadere_in_baze, inmultire_in_baze_cu_o_cifra, impartirea_cu_o_cifra
 from utils.utils import determinare_optiuni_disponibile
 from domain.conversii import conversie_impartire_succesiva, conversie_metoda_substitutiei, conversie_baza_intermediara, conversie_rapida
 
@@ -31,6 +32,17 @@ class Console:
         """ 
         print("╔═════════════════════════════════════════════════╗")
         print("║                 Convertor de baze               ║")
+        print("╚═════════════════════════════════════════════════╝")
+
+    @staticmethod
+    def __print_exit_banner():
+        """
+        Printare banner iesire aplicatie.
+        Input: -.
+        Output: -.
+        """ 
+        print("╔═════════════════════════════════════════════════╗")
+        print("║            Iesire din aplicatie...              ║")
         print("╚═════════════════════════════════════════════════╝")
 
     @staticmethod
@@ -125,7 +137,7 @@ class Console:
             rezultat, pasi = conversie_impartire_succesiva(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
-            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+            print(f"Rezultatul este: {numar_de_convertit} ({baza_sursa}) = {rezultat} ({baza_destinatie})")
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
 
@@ -147,7 +159,7 @@ class Console:
             rezultat, pasi = conversie_metoda_substitutiei(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
-            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+            print(f"Rezultatul este: {numar_de_convertit} ({baza_sursa}) = {rezultat} ({baza_destinatie})")
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
     
@@ -169,7 +181,7 @@ class Console:
             rezultat, pasi = conversie_baza_intermediara(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
-            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+            print(f"Rezultatul este: {numar_de_convertit} ({baza_sursa}) = {rezultat} ({baza_destinatie})")
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
     
@@ -191,9 +203,97 @@ class Console:
             rezultat, pasi = conversie_rapida(numar_de_convertit, baza_sursa, baza_destinatie)
             print("Pasi efectuati in conversie:")
             print(pasi)
-            print(f"Rezultatul este: {rezultat} ({baza_destinatie})")
+            print(f"Rezultatul este: {numar_de_convertit} ({baza_sursa}) = {rezultat} ({baza_destinatie})")
         except Exception as error:
             print(f"Eroare la convertirea numarului: {error}")
+
+    #! 5) Adunare.
+    def __adunare_in_baze_ui(self):
+        """
+        Printam interfața pentru adunarea a două numere în diferite baze.
+        Input: -.
+        Output: -.
+        """
+        # Baza sursa.
+        baza = Console.__input_optiune_utilizator(2, 16, "Introduceti baza in care se vor aduna numerele (2-16): ")
+        # Numarul 1.
+        numar1 = input("Introduceti primul numar: ")
+        # Numarul 2.
+        numar2 = input("Introduceti al doilea numar: ")
+        print(f"\nAdunam numerele {numar1} si {numar2} in baza {baza}.\n")
+        try:
+            rezultat, pasi = adunare_in_baze(numar1, numar2, baza)
+            print("Pasi efectuati in adunare:")
+            print(pasi)
+            print(f"Rezultatul adunarii este: {numar1} ({baza}) + {numar2} ({baza}) = {rezultat} ({baza})")
+        except Exception as error:
+            print(f"Eroare la adunarea numerelor: {error}")
+
+    #! 6) Scadere.
+    def __scadere_in_baze_ui(self):
+        """
+        Printam interfața pentru scăderea a două numere în diferite baze.
+        Input: -.
+        Output: -.
+        """
+        # Baza sursa.
+        baza = Console.__input_optiune_utilizator(2, 16, "Introduceti baza in care se vor scadea numerele (2-16): ")
+        # Numarul 1.
+        numar1 = input("Introduceti primul numar: ")
+        # Numarul 2.
+        numar2 = input("Introduceti al doilea numar: ")
+        print(f"\nScadem numerele {numar1} si {numar2} in baza {baza}.\n")
+        try:
+            rezultat, pasi = scadere_in_baze(numar1, numar2, baza)
+            print("Pasi efectuati in scadere:")
+            print(pasi)
+            print(f"Rezultatul scaderii este: {numar1} ({baza}) - {numar2} ({baza}) = {rezultat} ({baza})")
+        except Exception as error:
+            print(f"Eroare la scaderea numerelor: {error}")
+
+    #! 7) Inmultire cu o cifra.
+    def __inmultire_in_baze_cu_o_cifra_ui(self):
+        """
+        Printam interfața pentru înmulțirea unui număr cu o cifră în diferite baze.
+        Input: -.
+        Output: -.
+        """
+        # Baza sursa.
+        baza = Console.__input_optiune_utilizator(2, 16, "Introduceti baza in care se va inmulti numarul (2-16): ")
+        # Numarul.
+        numar = input("Introduceti numarul: ")
+        # Cifra.
+        cifra = input("Introduceti cifra cu care se va inmulti numarul: ")
+        print(f"\nInmultim numarul {numar} cu cifra {cifra} in baza {baza}.\n")
+        try:
+            rezultat, pasi = inmultire_in_baze_cu_o_cifra(numar, cifra, baza)
+            print("Pasi efectuati in inmultire:")
+            print(pasi)
+            print(f"Rezultatul inmultirii este: {numar} ({baza}) * {cifra} ({baza}) = {rezultat} ({baza})")
+        except Exception as error:
+            print(f"Eroare la inmultirea numerelor: {error}")
+
+    #! 8) Impartire.
+    def __impartire_in_baze_ui(self):
+        """
+        Printam interfața pentru împărțirea unui număr la o cifră în diferite baze.
+        Input: -.
+        Output: -.
+        """
+        # Baza sursa.
+        baza = Console.__input_optiune_utilizator(2, 16, "Introduceti baza in care se va imparti numarul (2-16): ")
+        # Numarul.
+        numar = input("Introduceti numarul: ")
+        # Cifra.
+        cifra = input("Introduceti cifra la care se va imparti numarul: ")
+        print(f"\nImpartim numarul {numar} la cifra {cifra} in baza {baza}.\n")
+        try:
+            rezultat, rest_rezultat, pasi = impartirea_cu_o_cifra(numar, cifra, baza)
+            print("Pasi efectuati in impartire:")
+            print(pasi)
+            print(f"Rezultatul impartirii este: {numar} ({baza}) / {cifra} ({baza}) = {rezultat} ({baza}) rest {rest_rezultat} ({baza})")
+        except Exception as error:
+            print(f"Eroare la impartirea numerelor: {error}")
 
     def showUi(self):
         """
@@ -237,7 +337,7 @@ class Console:
             # Optiunea 0: Iesire din aplicatie.
             if user_option_1 == 0:
                 if user_option_2 == 0:
-                    print("Iesire din aplicatie...")
+                    self.__print_exit_banner()
                     running = False
 
             # Optiunea 1: Conversie număr între baze.
@@ -257,13 +357,13 @@ class Console:
             # Optiunea 3: Operatii aritmetice în diferite baze.
             if user_option_1 == 3:
                 if user_option_2 == 1:
-                    pass
+                    self.__adunare_in_baze_ui()
                 elif user_option_2 == 2:
-                    pass
+                    self.__scadere_in_baze_ui()
                 elif user_option_2 == 3:
-                    pass
+                    self.__inmultire_in_baze_cu_o_cifra_ui()
                 elif user_option_2 == 4:
-                    pass
+                    self.__impartire_in_baze_ui()
 
             # Resetam variabila ok pentru a printa meniul principal la urmatoarea iteratie.
             ok = 0

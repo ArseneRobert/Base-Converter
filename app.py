@@ -1,9 +1,11 @@
 """
 Coordonator aplicatie.
+Autor: Arsene Robert
 """
 
 from ui.console import Console
 
+# Functie principala care ruleaza aplicatia
 def run_app():
     """
     Ruleaza aplicatia.
